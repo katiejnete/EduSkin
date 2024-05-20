@@ -25,33 +25,15 @@ CURR_USER_KEY = "curr_user"
 
 app = Flask(__name__)
 
-def config_var():
-    return {
-        "database": os.environ.get('DATABASE'),
-        "user": os.environ.get('USER'),
-        "password": os.environ.get('PASSWORD'),
-        "host": os.environ.get('HOST'),
-        "port": os.environ.get('PORT')
-    }
-
-import psycopg2 
-
 with app.app_context():
     app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get(
-        "DATABASE_URL", "postgresql:///eduskin"
+        "DATABASE_URL", "postgresql+psycopg2:///eduskin@localhost:5432"
     )
 
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     app.config["SQLALCHEMY_ECHO"] = False
     app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY", "it's a secret")
     DATABASES = config_var()
-    conn = psycopg2.connect(
-        dbname=DATABASES["database"], 
-        user=DATABASES["user"],
-        password=DATABASES["password"],
-        host=DATABASES["host"],
-        port=DATABASES["port"]
-        )
     connect_db(app)
 
 
