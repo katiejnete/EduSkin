@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>EduSkin</title>
+
+  <link rel="stylesheet"
+        href="https://unpkg.com/bootstrap/dist/css/bootstrap.css">
+  <script src="https://unpkg.com/jquery"></script>
+  <script src="https://unpkg.com/popper"></script>
+  <script src="https://unpkg.com/bootstrap"></script>
+
+  <link rel="stylesheet"
+        href="https://use.fontawesome.com/releases/v5.3.1/css/all.css">
+  <link rel="stylesheet" href="/static/stylesheets/style.css">
+  <link rel="shortcut icon" href="/static/es-favicon.ico">
+</head>
+
+<body class="{% block body_class %}{% endblock %}">
+<nav class="navbar navbar-expand">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a href="/" class="navbar-brand">
+        <img src="/static/images/es-logo.png" alt="logo">
+        <span>EduSkin</span>
+      </a>
+    </div>
+    <ul class="nav navbar-nav navbar-center">
+      {% if request.endpoint != None %}
+      <li>
+        <form class="navbar-form navbar-right" action="/product">
+          <input name="q" class="form-control" placeholder="Product search" id="search" required>
+          <button class="btn btn-default">
+            <span class="fa fa-search"></span>
+          </button>
+        </form>
+      </li>
+      {% endif %}
+      {% if not g.user %}
+      <li><a id="signup_a" class="btn btn-outline-info" href="/signup">Sign up</a></li>
+      <li><a id="login_a" class="btn btn-outline-info" href="/login">Log in</a></li>
+      {% else %}
+      <li><a class="btn btn-outline-light" href="/wishlist"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
+        <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15"/>
+      </svg></a></li>
+      <li><a class="btn btn-outline-info" href="/product/new">Submit product</a></li>
+      <li><a class="btn btn-outline-info" href="/logout">Log out</a></li>
+      {% endif %}
+    </ul>
+  </div>
+</nav>
+  {% block content %}
+  <div class="alert-box">
+    {% for category, message in get_flashed_messages(with_categories=True) %}
+    <div class="alert alert-{{ category }}">{{ message }}</div>
+    {% endfor %}
+  </div>
+  {% endblock %}
+
+</body>
+</html>

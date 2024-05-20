@@ -1,0 +1,88 @@
+{% extends 'base.html' %} {% block content %} {% if products|length == 0 %}
+<div class="alert-box">
+  {% for category, message in get_flashed_messages(with_categories=True) %}
+  <div class="alert alert-{{ category }}">{{ message }}</div>
+  {% endfor %}
+</div>
+{% else %}
+<div class="product-banner">
+  <p class="h5">
+    {% block banner %}Search results for '{{search}}'{% endblock %}
+  </p>
+  <div class="sort">
+    <form method="POST" id="select_form">
+      <label>Sort by:</label>
+      {{ form.hidden_tag() }} {% for field in form if field.widget.input_type !=
+      'hidden' %} {{ field(placeholder=field.label.text, class="form-control
+      form-select-sm sort-select", onchange="select_form.submit()") }} {% endfor
+      %}
+    </form>
+  </div>
+</div>
+<div class="product-search-container">
+  {% for product in products %}
+  <a href="/product/{{ product.id }}">
+    <div class="card">
+      <img
+        src="{{ product.image_url }}"
+        alt="Image for {{ product.name }}"
+        class="card-img-top"
+      />
+      {% if g.user %} {% if product not in favorites %}
+      <form action="/wishlist/add/{{product.id}}" method="post">
+        <button class="btn btn-light heart">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="currentColor"
+            class="bi bi-heart"
+            viewBox="0 0 16 16"
+          >
+            <path
+              d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15"
+            />
+          </svg>
+        </button>
+      </form>
+      {% else %}
+      <form action="/wishlist/add/{{product.id}}" method="post">
+        <button class="btn btn-light heart">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="currentColor"
+            class="bi bi-heart-fill"
+            viewBox="0 0 16 16"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314"
+            />
+          </svg>
+        </button>
+      </form>
+      {% endif %} {% endif %}
+      <div class="card-body">
+        <p class="card-text small product-name">{{ product.name.title() }}</p>
+        {% if product.price %}
+        <p class="card-text small product-price">$ {{ "%.2f"|format(product.price) }}</p>
+        {% endif %} {% if product.rating %}
+        <p class="card-text small product-rating">{{ product.rating }}/5</p>
+        {% endif %} {% if product.num_reviews %}
+        <button
+          type="button"
+          class="btn btn-outline-secondary btn-sm product-reviews"
+          disabled
+        >
+          {{ product.num_reviews }}
+        </button>
+        {% endif %}
+      </div>
+    </div>
+  </a>
+  {% endfor %}
+  {% endif %} 
+</div>
+{% endblock %}

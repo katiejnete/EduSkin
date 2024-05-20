@@ -1,0 +1,16 @@
+{% extends 'base.html' %} {% block content %}
+<div class="product-add row justify-content-md-center">
+  {% for category, message in get_flashed_messages(with_categories=True) %}
+  <div class="alert alert-{{ category }}">{{ message }}</div>
+  {% endfor %}
+  <div class="col-md-7 col-lg-5">
+    <form method="POST" id="product-form">
+      {{ form.hidden_tag() }} {% for field in form if field.widget.input_type !=
+      'hidden' %} {{ field(placeholder=field.label.text, class="form-control")
+      }} {% endfor %}
+
+      <button class="btn btn-info btn-block btn-lg">Submit product</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

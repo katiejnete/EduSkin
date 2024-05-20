@@ -1,0 +1,97 @@
+{% extends 'base.html' %} {% block content %}
+<div class="container-fluid product-container">
+  <h4>{{ product.name.title() }}</h4>
+</div>
+<div class="info-container">
+  <img src="{{product.image_url}}" alt="image of {{product.name}}" />
+  <p>Data collected on: {{product.timestamp}}</p>
+  {% if product.price %}
+  <p class="h5 info-price">$ {{ "%.2f"|format(product.price) }}</p>
+  {% endif %} {% if product.rating %}
+  <p class="info-rating">Rating: {{product.rating}}/5</p>
+  {% endif %} {% if product.num_reviews %}
+  <p>Reviews: <button
+    type="button"
+    class="btn btn-outline-secondary info-reviews"
+    disabled
+  >
+    {{product.num_reviews}}
+  </button>
+  {% if product.link %}
+  <p>Link: <a href="{{product.link}}">{{product.link}}</a></p>
+  {% endif %}
+  </p>
+  {% endif %} {% if favorites %} {% if product not in favorites %}
+  <form action="/wishlist/add/{{product.id}}" method="post">
+    <p>Save: 
+    <button class="btn btn-light info-heart">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        fill="currentColor"
+        class="bi bi-heart"
+        viewBox="0 0 16 16"
+      >
+        <path
+          d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15"
+        />
+      </svg>
+    </button>
+    </p>
+  </form>
+  {% else %}
+  <form action="/wishlist/add/{{product.id}}" method="post">
+    <p>Save: 
+    <button class="btn btn-light info-heart">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        fill="currentColor"
+        class="bi bi-heart-fill"
+        viewBox="0 0 16 16"
+      >
+        <path
+          fill-rule="evenodd"
+          d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314"
+        />
+      </svg>
+    </button>
+    </p>
+  </form>
+  {% endif %} {% endif %}
+</div>
+<div class="ing-container">
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Ingredient
+          <div class="scores-i i-container">
+            <a href="#">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
+                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0"/>
+              </svg>
+              <span class="tooltiptext scores-tooltiptext">Acne and irritation scores represent the probabilities of occurrence. Safety scores represent hazard levels. Scores between 0-5 have lower probabilities and levels.</span>
+            </a>
+            </div>
+        </th>
+        <th scope="col">Acne score</th>
+        <th scope="col">Irritant score</th>
+        <th scope="col">Safety score</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for ing in ings %}
+      <tr>
+        <td>{{ing.name}}</td>
+        <td>{{ing.acne_score}}</td>
+        <td>{{ing.irritant_score}}</td>
+        <td>{{ing.safety_score}}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

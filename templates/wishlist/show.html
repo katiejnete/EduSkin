@@ -1,0 +1,58 @@
+{% extends 'base.html' %} {% block content %}
+<div class="alert-box">
+  {% for category, message in get_flashed_messages(with_categories=True) %}
+  <div class="alert alert-{{ category }}">{{ message }}</div>
+  {% endfor %}
+</div>
+{% if favorites %}
+<div class="product-banner">
+  <p class="h5">{% block banner %}{{g.user.username}}'s favorites{% endblock %}</p>
+</div>
+{% endif %}
+<div class="product-search-container">
+  {% for product in favorites %}
+  <a href="/product/{{ product.id }}">
+    <div class="card">
+      <img
+        src="{{ product.image_url }}"
+        alt="Image for {{ product.name }}"
+        class="card-img-top"
+      />
+      <form action="/wishlist/add/{{product.id}}" method="post">
+        <button class="btn btn-light heart">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="currentColor"
+            class="bi bi-heart-fill"
+            viewBox="0 0 16 16"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314"
+            />
+          </svg>
+        </button>
+      </form>
+      <div class="card-body">
+        <p class="card-text small product-name">{{ product.name.title() }}</p>
+        {% if product.price %}
+        <p class="card-text small product-price">$ {{ product.price }}</p>
+        {% endif %} {% if product.rating %}
+        <p class="card-text small product-rating">{{ product.rating }}/5</p>
+        {% endif %} {% if product.num_reviews %}
+        <button
+          type="button"
+          class="btn btn-outline-secondary btn-sm product-reviews"
+          disabled
+        >
+          {{ product.num_reviews }}
+        </button>
+        {% endif %}
+      </div>
+    </div>
+  </a>
+  {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,77 @@
+{% extends 'base.html' %}{% block content %} 
+<div class="alert-box">
+  {% for category, message in get_flashed_messages(with_categories=True) %}
+  <div class="alert alert-{{ category }}">{{ message }}</div>
+  {% endfor %}
+</div>
+{% if not g.user %}
+<a id="start" class="btn btn-info" href="/signup">Get started</a>
+<div class="home-hero">
+  <h1>
+    Your skin knowledge journey <br />
+    begins now
+  </h1>
+  <p>Personalized skincare picks that match your unique favorites</p>
+</div>
+<div class="product-card">
+  <div class="a-wrapper">
+    <a class="card-link link-dark" href="/product/acne-safe" class="link-dark">
+      <div class="img-wrapper">
+        <img src="/static/images/acne-safe-product-card.jpg" alt="" />
+        <p>Acne safe skincare &rarr;</p>
+      </div>
+    </a>
+  </div>
+  <div class="a-wrapper">
+    <a class="card-link link-dark" href="/product/anti-aging" class="link-dark">
+      <div class="img-wrapper">
+        <img
+          id="aging-img"
+          src="/static/images/anti-aging-product-card.png"
+          alt=""
+        />
+        <p>Anti-aging protection &rarr;</p>
+      </div>
+    </a>
+  </div>
+</div>
+{% else %}
+<div class="user-product-card">
+  <div class="a-wrapper">
+    <a
+      class="card-link link-dark"
+      href="/product/recommended"
+      class="link-dark"
+    >
+      <div class="img-wrapper">
+        <img
+          id="rec-img"
+          src="/static/images/recommended-product-card.jpg"
+          alt=""
+        />
+        <p>Recommended skincare products</p>
+      </div>
+    </a>
+  </div>
+  <div class="a-wrapper">
+    <a class="card-link link-dark" href="/product/acne-safe" class="link-dark">
+      <div class="img-wrapper">
+        <img src="/static/images/acne-safe-product-card.jpg" alt="" />
+        <p>Acne safe skincare &rarr;</p>
+      </div>
+    </a>
+  </div>
+  <div class="a-wrapper">
+    <a class="card-link link-dark" href="/product/anti-aging" class="link-dark">
+      <div class="img-wrapper">
+        <img
+          id="aging-img"
+          src="/static/images/anti-aging-product-card.png"
+          alt=""
+        />
+        <p>Anti-aging protection &rarr;</p>
+      </div>
+    </a>
+  </div>
+</div>
+{% endif %} {% endblock %}
