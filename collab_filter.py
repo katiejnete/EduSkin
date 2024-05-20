@@ -22,7 +22,8 @@ FAVORITES_CSV_HEADERS = ["user_id", "wishlist_id", "product_id"]
 
 url_obj = URL.create(
     "postgresql+psycopg2",
-    database="eduskin"
+    database="eduskin",
+    port="5432"
 )
 engine = create_engine(url_obj)
 
