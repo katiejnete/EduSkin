@@ -12,6 +12,7 @@ from sklearn.neighbors import NearestNeighbors
 import matplotlib.pyplot as plt
 import seaborn as sns
 import warnings
+from sqlalchemy import create_engine
 
 warnings.simplefilter(action="ignore", category=FutureWarning)
 
@@ -19,12 +20,13 @@ PRODUCT_CSV_HEADERS = ["id", "name"]
 USER_CSV_HEADERS = ["id"]
 FAVORITES_CSV_HEADERS = ["user_id", "wishlist_id", "product_id"]
 
+engine = create_engine('postgresql://eduskin')
 
 def start_collab_filter():
     products = pd.read_sql("SELECT id, name FROM product", "postgresql:///eduskin")
     favorites = pd.read_sql(
         "SELECT users.id as user_id, wishlist.id as wishlist_id, product.id as product_id FROM users JOIN wishlist ON wishlist.user_id = users.id JOIN wishlist_product ON wishlist_product.wishlist_id = wishlist.id JOIN product ON wishlist_product.product_id = product.id",
-        "postgresql:///eduskin",
+        con=engine
     )
     return products, favorites
 
