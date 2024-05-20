@@ -21,6 +21,8 @@ from collab_filter import (
     recommend_products_for_user as recommend,
 )
 
+import psycopg2
+
 CURR_USER_KEY = "curr_user"
 
 app = Flask(__name__)
@@ -33,6 +35,9 @@ with app.app_context():
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     app.config["SQLALCHEMY_ECHO"] = False
     app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY", "it's a secret")
+    conn = psycopg2.connect(
+        database="postgresql://ggldefur:akqmtRf5YvaPsvywboNuaRslsWNJ1ePu@bubble.db.elephantsql.com/ggldefur", user="ggldefur", host="/tmp/", password="akqmtRf5YvaPsvywboNuaRslsWNJ1ePu"
+    )
     connect_db(app)
 
 
@@ -148,7 +153,6 @@ def show_products():
 
     search = request.args.get("q")
 
-
     if not search:
         return redirect("/")
 
@@ -163,12 +167,12 @@ def show_products():
         products = Product.sort_products(sort, search)
         if not products:
             flash("Sorry, no products were found", "danger")
-    
+
     if not g.user:
         favorites = None
     else:
         favorites = WishlistProduct.get_favorites(g.user.wishlist[0].id)
-    
+
     return render_template(
         "product/index.html",
         products=products,
@@ -177,10 +181,11 @@ def show_products():
         form=form,
     )
 
-@app.route("/product/acne-safe", methods=["GET","POST"])
+
+@app.route("/product/acne-safe", methods=["GET", "POST"])
 def show_acne_safe():
-    search = ''
-    products = Product.sort_products('acne_score', search)
+    search = ""
+    products = Product.sort_products("acne_score", search)
     if not g.user:
         favorites = None
     else:
@@ -193,12 +198,16 @@ def show_acne_safe():
         sort = form.sort.data
         products = Product.sort_rec_products(sort, product_ids)
         return render_template(
-            "product/acne-safe.html", products=products, form=form, favorites=favorites)
-    return render_template("product/acne-safe.html", products=products, form=form, favorites=favorites)    
+            "product/acne-safe.html", products=products, form=form, favorites=favorites
+        )
+    return render_template(
+        "product/acne-safe.html", products=products, form=form, favorites=favorites
+    )
 
-@app.route("/product/anti-aging", methods=["GET","POST"])
+
+@app.route("/product/anti-aging", methods=["GET", "POST"])
 def show_anti_aging():
-    search = 'sunscreen'
+    search = "sunscreen"
     products = Product.get_products(search)
     if not g.user:
         favorites = None
@@ -212,8 +221,12 @@ def show_anti_aging():
         sort = form.sort.data
         products = Product.sort_rec_products(sort, product_ids)
         return render_template(
-            "product/anti-aging.html", products=products, form=form, favorites=favorites)
-    return render_template("product/anti-aging.html", products=products, form=form, favorites=favorites)    
+            "product/anti-aging.html", products=products, form=form, favorites=favorites
+        )
+    return render_template(
+        "product/anti-aging.html", products=products, form=form, favorites=favorites
+    )
+
 
 @app.route("/product/<int:product_id>")
 def show_product(product_id):
@@ -246,14 +259,23 @@ def show_recommended_products():
     if rec_ids:
         recs, int_rec_ids = Product.get_rec_products(rec_ids)
         form = SortForm()
-        favorites = WishlistProduct.get_favorites(g.user.wishlist[0].id)            
+        favorites = WishlistProduct.get_favorites(g.user.wishlist[0].id)
         if form.validate_on_submit():
             sort = form.sort.data
             products = Product.sort_rec_products(sort, int_rec_ids)
             return render_template(
-                "product/recommended.html", products=products, form=form, favorites=favorites)
+                "product/recommended.html",
+                products=products,
+                form=form,
+                favorites=favorites,
+            )
         else:
-            return render_template("product/recommended.html", products=recs, form=form, favorites=favorites)
+            return render_template(
+                "product/recommended.html",
+                products=recs,
+                form=form,
+                favorites=favorites,
+            )
     else:
         return redirect("/wishlist")
 
