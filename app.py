@@ -21,8 +21,6 @@ from collab_filter import (
     recommend_products_for_user as recommend,
 )
 
-import psycopg2
-
 CURR_USER_KEY = "curr_user"
 
 app = Flask(__name__)
@@ -35,9 +33,6 @@ with app.app_context():
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     app.config["SQLALCHEMY_ECHO"] = False
     app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY", "it's a secret")
-    conn = psycopg2.connect(
-        database="postgresql://ggldefur:akqmtRf5YvaPsvywboNuaRslsWNJ1ePu@bubble.db.elephantsql.com/ggldefur", user="ggldefur", host="bubble.db.elephantsql.com", password="akqmtRf5YvaPsvywboNuaRslsWNJ1ePu"
-    )
     connect_db(app)
 
 
