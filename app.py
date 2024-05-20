@@ -36,7 +36,7 @@ with app.app_context():
     app.config["SQLALCHEMY_ECHO"] = False
     app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY", "it's a secret")
     conn = psycopg2.connect(
-        database="postgresql://ggldefur:akqmtRf5YvaPsvywboNuaRslsWNJ1ePu@bubble.db.elephantsql.com/ggldefur", user="ggldefur", host="0.0.0.0:10000", password="akqmtRf5YvaPsvywboNuaRslsWNJ1ePu"
+        database="postgresql://ggldefur:akqmtRf5YvaPsvywboNuaRslsWNJ1ePu@bubble.db.elephantsql.com/ggldefur", user="ggldefur", host="bubble.db.elephantsql.com", password="akqmtRf5YvaPsvywboNuaRslsWNJ1ePu"
     )
     connect_db(app)
 
