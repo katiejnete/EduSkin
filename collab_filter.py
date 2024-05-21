@@ -12,7 +12,7 @@ from sklearn.neighbors import NearestNeighbors
 import matplotlib.pyplot as plt
 import seaborn as sns
 import warnings
-from sqlalchemy import create_engine, URL
+import psycopg2
 
 warnings.simplefilter(action="ignore", category=FutureWarning)
 
@@ -20,19 +20,14 @@ PRODUCT_CSV_HEADERS = ["id", "name"]
 USER_CSV_HEADERS = ["id"]
 FAVORITES_CSV_HEADERS = ["user_id", "wishlist_id", "product_id"]
 
-url_obj = URL.create(
-    "postgresql+psycopg2",
-    database="eduskin",
-    port="5432"
-)
-engine = create_engine(url_obj)
+conn = psycopg2.connect(database='eduskin', host='/tmp/', port='5432')
 
 def start_collab_filter():
     products = pd.read_sql("SELECT id, name FROM product",
-                           con=engine)
+                           "postgresql+psycopg2:///eduskin")
     favorites = pd.read_sql(
         "SELECT users.id as user_id, wishlist.id as wishlist_id, product.id as product_id FROM users JOIN wishlist ON wishlist.user_id = users.id JOIN wishlist_product ON wishlist_product.wishlist_id = wishlist.id JOIN product ON wishlist_product.product_id = product.id",
-        con=engine
+        "postgresql+psycopg2:///eduskin"
     )
     return products, favorites
 
