@@ -20,9 +20,8 @@ USER_CSV_HEADERS = ["id"]
 FAVORITES_CSV_HEADERS = ["user_id", "wishlist_id", "product_id"]
 
 import psycopg2
-connection = psycopg2.connect(database="postgresql://ggldefur:akqmtRf5YvaPsvywboNuaRslsWNJ1ePu@bubble.db.elephantsql.com/ggldefur")
+connection = psycopg2.connect(database="postgres://ggldefur:akqmtRf5YvaPsvywboNuaRslsWNJ1ePu@bubble.db.elephantsql.com/ggldefur")
 def start_collab_filter():
-
     products = pd.read_sql("SELECT id, name FROM product",
     con=connection)
     favorites = pd.read_sql(
