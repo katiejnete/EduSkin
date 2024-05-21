@@ -19,14 +19,12 @@ PRODUCT_CSV_HEADERS = ["id", "name"]
 USER_CSV_HEADERS = ["id"]
 FAVORITES_CSV_HEADERS = ["user_id", "wishlist_id", "product_id"]
 
-import psycopg2
-connection = psycopg2.connect(database="postgres://ggldefur:akqmtRf5YvaPsvywboNuaRslsWNJ1ePu@bubble.db.elephantsql.com/ggldefur")
+from sqlalchemy import create_engine
+engine = create_engine("postgresql://ggldefur:akqmtRf5YvaPsvywboNuaRslsWNJ1ePu@bubble.db.elephantsql.com/ggldefur")
 def start_collab_filter():
-    products = pd.read_sql("SELECT id, name FROM product",
-    con=connection)
+    products = pd.read_sql("SELECT id, name FROM product", engine)
     favorites = pd.read_sql(
-        "SELECT users.id as user_id, wishlist.id as wishlist_id, product.id as product_id FROM users JOIN wishlist ON wishlist.user_id = users.id JOIN wishlist_product ON wishlist_product.wishlist_id = wishlist.id JOIN product ON wishlist_product.product_id = product.id",
-        con=connection)
+        "SELECT users.id as user_id, wishlist.id as wishlist_id, product.id as product_id FROM users JOIN wishlist ON wishlist.user_id = users.id JOIN wishlist_product ON wishlist_product.wishlist_id = wishlist.id JOIN product ON wishlist_product.product_id = product.id", engine)
     return products, favorites
 
 
