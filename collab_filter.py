@@ -12,7 +12,6 @@ from sklearn.neighbors import NearestNeighbors
 import matplotlib.pyplot as plt
 import seaborn as sns
 import warnings
-import psycopg2
 
 warnings.simplefilter(action="ignore", category=FutureWarning)
 
@@ -20,14 +19,12 @@ PRODUCT_CSV_HEADERS = ["id", "name"]
 USER_CSV_HEADERS = ["id"]
 FAVORITES_CSV_HEADERS = ["user_id", "wishlist_id", "product_id"]
 
-conn = psycopg2.connect(database='eduskin', host='/tmp/', port='5432')
-
 def start_collab_filter():
     products = pd.read_sql("SELECT id, name FROM product",
-                           "postgresql+psycopg2:///eduskin")
+                           "postgresql:///eduskin")
     favorites = pd.read_sql(
         "SELECT users.id as user_id, wishlist.id as wishlist_id, product.id as product_id FROM users JOIN wishlist ON wishlist.user_id = users.id JOIN wishlist_product ON wishlist_product.wishlist_id = wishlist.id JOIN product ON wishlist_product.product_id = product.id",
-        "postgresql+psycopg2:///eduskin"
+        "postgresql:///eduskin"
     )
     return products, favorites
 
