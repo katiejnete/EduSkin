@@ -21,10 +21,10 @@ FAVORITES_CSV_HEADERS = ["user_id", "wishlist_id", "product_id"]
 
 def start_collab_filter():
     products = pd.read_sql("SELECT id, name FROM product",
-                           "postgresql:///eduskin")
+                           "postgres://ggldefur:akqmtRf5YvaPsvywboNuaRslsWNJ1ePu@bubble.db.elephantsql.com/ggldefur")
     favorites = pd.read_sql(
         "SELECT users.id as user_id, wishlist.id as wishlist_id, product.id as product_id FROM users JOIN wishlist ON wishlist.user_id = users.id JOIN wishlist_product ON wishlist_product.wishlist_id = wishlist.id JOIN product ON wishlist_product.product_id = product.id",
-        "postgresql:///eduskin"
+        "postgres://ggldefur:akqmtRf5YvaPsvywboNuaRslsWNJ1ePu@bubble.db.elephantsql.com/ggldefur"
     )
     return products, favorites
 
