@@ -164,6 +164,7 @@ def scrape_google(query):
     product["name"] = query.lower()
     options = Options()
     options.add_argument("--headless=new")
+    service = webdriver.ChromeService(executable_path="/Users/kate/eduskin/static/chromedriver")
     driver = webdriver.Chrome(options=options)
     RESRC = "/search?q=" + query.replace(" ", "+") + " amazon"
     val = f"{G_URL}{RESRC}"
