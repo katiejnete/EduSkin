@@ -1,6 +1,5 @@
 # EduSkin
 - A web application that allows users to better access data about cosmetic products. Built using Flask, with data scraped from [CosDNA](https://cosdna.com/) and [Google](https://www.google.com/).
-- [Deployed URL](https://eduskin.onrender.com)
 
 ## App Features
 In response to the persistent challenges faced by consumers in navigating the complexities of skincare product selection, I have developed a comprehensive web application. Recognizing the prevalent struggle of individuals to access reliable information about cosmetic products, particularly when considering new additions to their skincare regimen, this platform aims to alleviate such uncertainties. Users get invaluable insights into product ingredients and crucial metrics. Empowering consumers with the ability to make informed decisions, our platform offers intuitive filters, enabling streamlined product exploration and selection.
