@@ -2,6 +2,7 @@ import os
 
 from flask import Flask, render_template, request, flash, redirect, session, g
 from sqlalchemy.exc import IntegrityError
+from dotenv import load_dotenv
 
 from models import (
     db,
@@ -21,6 +22,8 @@ from collab_filter import (
     recommend_products_for_user as recommend,
 )
 
+load_dotenv(".env")
+
 CURR_USER_KEY = "curr_user"
 
 app = Flask(__name__)
@@ -32,7 +35,7 @@ with app.app_context():
 
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     app.config["SQLALCHEMY_ECHO"] = False
-    app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY", "it's a secret")
+    app.config["SECRET_KEY"] = os.getenv("API_KEY")
     connect_db(app)
 
 
