@@ -30,7 +30,7 @@ app = Flask(__name__)
 
 with app.app_context():
     app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get(
-        "DATABASE_URL", "postgresql:///eduskin"
+        "DATABASE_URL", "postgresql://postgres:9XmZes5RBPs1GnoV@db.ydxaxaxubaylcfwudqan.supabase.co:5432/postgres"
     )
 
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
