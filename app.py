@@ -28,6 +28,8 @@ CURR_USER_KEY = "curr_user"
 
 app = Flask(__name__)
 
+app.config["DEBUG"] = False
+
 with app.app_context():
     app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get(
         "DATABASE_URL", "postgresql://postgres:9XmZes5RBPs1GnoV@db.ydxaxaxubaylcfwudqan.supabase.co:5432/postgres"
