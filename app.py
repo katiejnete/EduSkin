@@ -37,7 +37,7 @@ with app.app_context():
 
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     app.config["SQLALCHEMY_ECHO"] = False
-    app.config["SECRET_KEY"] = os.getenv("API_KEY")
+    app.config["SECRET_KEY"] = os.getenv("SECRET_KEY", "it's a secret")
     connect_db(app)
 
 
