@@ -40,7 +40,6 @@ with app.app_context():
     app.config["SECRET_KEY"] = os.getenv("SECRET_KEY", "it's a secret")
     connect_db(app)
 
-
 @app.before_request
 def add_user_to_g():
 
