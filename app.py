@@ -29,7 +29,7 @@ app.config["DEBUG"] = False
 
 with app.app_context():
     app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get(
-        "postgresql://postgres:q16GixmS1AGnHTRJ@db.ydxaxaxubaylcfwudqan.supabase.co:5432/postgres", "postgresql:///eduskin"
+        DATABASE_URL, "postgresql:///eduskin"
     )
 
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
