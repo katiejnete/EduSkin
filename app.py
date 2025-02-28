@@ -23,8 +23,6 @@ from collab_filter import (
     recommend_products_for_user as recommend,
 )
 
-load_dotenv(".env")
-
 CURR_USER_KEY = "curr_user"
 
 app = Flask(__name__)
@@ -39,6 +37,8 @@ with app.app_context():
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     app.config["SQLALCHEMY_ECHO"] = False
     app.config["SECRET_KEY"] = os.getenv("SECRET_KEY", "it's a secret")
+    app.config["SQLALCHEMY_POOL_SIZE"] = 10  # Example size, adjust as needed
+    app.config["SQLALCHEMY_POOL_RECYCLE"] = 280  # Adjust depending on connection timeout
     connect_db(app)
 
 @app.before_request
