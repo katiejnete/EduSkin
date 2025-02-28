@@ -13,6 +13,8 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import warnings
 import os
+from dotenv import load_dotenv
+load_dotenv()
 
 warnings.simplefilter(action="ignore", category=FutureWarning)
 
