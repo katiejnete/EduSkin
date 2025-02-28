@@ -2,8 +2,6 @@ import os
 
 from flask import Flask, render_template, request, flash, redirect, session, g
 from sqlalchemy.exc import IntegrityError
-from dotenv import load_dotenv
-load_dotenv()
 
 from models import (
     db,
