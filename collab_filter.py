@@ -20,7 +20,8 @@ USER_CSV_HEADERS = ["id"]
 FAVORITES_CSV_HEADERS = ["user_id", "wishlist_id", "product_id"]
 
 from sqlalchemy import create_engine
-engine = create_engine("postgresql://ggldefur:akqmtRf5YvaPsvywboNuaRslsWNJ1ePu@bubble.db.elephantsql.com/ggldefur")
+engine = create_engine("postgresql://postgres:9XmZes5RBPs1GnoV@db.ydxaxaxubaylcfwudqan.supabase.co:5432/postgres")
+
 def start_collab_filter():
     products = pd.read_sql("SELECT id, name FROM product", engine)
     favorites = pd.read_sql(
@@ -107,8 +108,11 @@ def find_similar_products(
 def recommend_products_for_user(
     favorites, products, product_mapper, product_inv_mapper, user_id, X, k=10
 ):
-    df1 = favorites[favorites["user_id"] == user_id]
-
+    pd_read = pd.read_sql(
+    f"SELECT users.id as user_id, wishlist.id as wishlist_id, product.id as product_id FROM users JOIN wishlist ON wishlist.user_id = users.id JOIN wishlist_product ON wishlist_product.wishlist_id = wishlist.id JOIN product ON wishlist_product.product_id = product.id where user_id = '{user_id}'", engine)
+    print(pd_read)
+    df1 = favorites.query(f'user_id == "{user_id}"')
+    # print(df1)
     if df1.empty:
         return
 
